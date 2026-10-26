@@ -3,7 +3,7 @@ name = "enterprise-erp-dashboard"
 version = "0.1.0"
 description = "Business intelligence metrics and SQL-ready analytics patterns"
 requires-python = ">=3.12,<3.13"
-dependencies = ["numpy>=1.26", "scikit-learn>=1.4"]
+dependencies = ["numpy>=1.26", "pandas>=2.2", "scikit-learn>=1.4", "sqlalchemy>=2.0"]
 
 [dependency-groups]
 dev = ["pytest>=8", "ruff>=0.6"]
