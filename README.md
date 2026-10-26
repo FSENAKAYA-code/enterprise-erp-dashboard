@@ -28,6 +28,12 @@ The demo uses generated toy data only. Replace it with data you are allowed to u
 - Fit preprocessing steps on training data only. Use validation results for model selection; report the test result once for the chosen configuration.
 - Check the project's `src/erp/` code and tests before adapting it to real data.
 
+## Domain workflow
+
+- `src/erp/sql_analytics.py` reflects simple SQL identifiers through SQLAlchemy and performs grouped aggregate queries; it does not write to the database.
+- `src/erp/kpis.py` provides pure KPI helpers and `src/erp/charts.py` builds Plotly charts from aggregated values. Avoid sending row-level employee, customer, or supplier data to public dashboards.
+- The demo classification pipeline uses deterministic train/validation/test splits and prints losses plus held-out metrics.
+
 ## Repository layout
 
 ```text

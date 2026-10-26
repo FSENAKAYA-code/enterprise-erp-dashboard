@@ -3,7 +3,7 @@
 from typing import Any
 
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import accuracy_score, f1_score
+from sklearn.metrics import accuracy_score, f1_score, log_loss
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 
@@ -15,8 +15,19 @@ def run_experiment(X: Any, y: Any, *, random_state: int = 42) -> dict[str, float
     parts = split_data(X, y, random_state=random_state)
     model = make_pipeline(StandardScaler(), LogisticRegression(max_iter=1000))
     model.fit(parts.X_train, parts.y_train)
+    train_loss = log_loss(
+        parts.y_train, model.predict_proba(parts.X_train), labels=model.classes_
+    )
+    validation_loss = log_loss(
+        parts.y_validation,
+        model.predict_proba(parts.X_validation),
+        labels=model.classes_,
+    )
     validation_score = f1_score(
-        parts.y_validation, model.predict(parts.X_validation), average="weighted"
+        parts.y_validation,
+        model.predict(parts.X_validation),
+        average="weighted",
+        zero_division=0,
     )
     model.fit(
         _concat(parts.X_train, parts.X_validation),
@@ -24,10 +35,12 @@ def run_experiment(X: Any, y: Any, *, random_state: int = 42) -> dict[str, float
     )
     predictions = model.predict(parts.X_test)
     return {
+        "train_loss": float(train_loss),
+        "validation_loss": float(validation_loss),
         "validation_f1_weighted": float(validation_score),
         "test_accuracy": float(accuracy_score(parts.y_test, predictions)),
         "test_f1_weighted": float(
-            f1_score(parts.y_test, predictions, average="weighted")
+            f1_score(parts.y_test, predictions, average="weighted", zero_division=0)
         ),
     }
 

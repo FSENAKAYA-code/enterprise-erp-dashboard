@@ -1,5 +1,3 @@
 # Domain implementation notes
 
-A small, auditable MIS analytics scaffold for aggregate operational metrics. Demo records are synthetic and contain no personal data.
-
-The shared baseline in `src/erp/` is executable now. Domain-specific model implementations are planned work and must be evaluated using documented data splits.
+SQLAlchemy Core reflection provides read-only grouped sums over validated identifiers. KPI functions and Plotly charts operate on aggregate values; the demo classifier uses deterministic train/validation/test splits and reports losses and held-out metrics.

@@ -25,6 +25,7 @@ def test_experiment_reports_validation_and_test_metrics():
     X, y = make_classification(n_samples=250, n_features=8, random_state=7)
     scores = run_experiment(X, y)
     assert set(scores) == {
-        "validation_f1_weighted", "test_accuracy", "test_f1_weighted"
+        "train_loss", "validation_loss", "validation_f1_weighted",
+        "test_accuracy", "test_f1_weighted"
     }
     assert all(0.0 <= value <= 1.0 for value in scores.values())
